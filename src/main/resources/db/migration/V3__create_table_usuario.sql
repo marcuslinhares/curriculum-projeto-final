@@ -6,3 +6,5 @@ CREATE TABLE "curriculum"."usuario" (
   "created_at" timestamp NOT NULL,
   "regra_id" uuid NOT NULL
 );
+
+ALTER TABLE "curriculum"."usuario" ADD FOREIGN KEY ("regra_id") REFERENCES "curriculum"."regra" ("id") ON DELETE CASCADE;

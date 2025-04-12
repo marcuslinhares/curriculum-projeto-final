@@ -1,5 +1,6 @@
 package dev.marcus.curriculum.services.impls;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -7,11 +8,10 @@ import org.springframework.stereotype.Service;
 
 import dev.marcus.curriculum.config.security.AuthenticatedUser;
 import dev.marcus.curriculum.repositories.UsuarioRepository;
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl  implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService{
     
     private final UsuarioRepository usuarioRepository;
 

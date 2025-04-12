@@ -1,6 +1,5 @@
 package dev.marcus.curriculum.models.entities;
 
-import java.util.List;
 import java.util.UUID;
 
 import dev.marcus.curriculum.models.enums.RegraNomeEnum;
@@ -10,7 +9,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,13 +19,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "regra")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "regra")
 @EqualsAndHashCode(of = "id")
 public class RegraEntity {
+
   @Id
   @GeneratedValue(generator = "UUID")
   private UUID id;
@@ -35,7 +34,4 @@ public class RegraEntity {
   @Column(nullable = false, unique = true)
   @Enumerated(EnumType.STRING)
   private RegraNomeEnum nome; 
-
-  @OneToMany(mappedBy = "regra", orphanRemoval = true)
-  private List<UsuarioEntity> usuarios;
 }

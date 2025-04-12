@@ -24,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
-public class UsuarioEntity {
+public class UsuarioEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -40,6 +40,7 @@ public class UsuarioEntity {
     private String senha;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "regra_id", nullable = false)
     private RegraEntity regra;
+    
 }

@@ -5,17 +5,13 @@ import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 public class BaseEntity {
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "data_criacao", updatable = false)
+  @Column(name = "created_at", updatable = false)
   private LocalDateTime dataCriacao;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "data_atualizacao")
+  @Column(name = "updated_at")
   private LocalDateTime dataAtualizacao;
 
   @PrePersist
