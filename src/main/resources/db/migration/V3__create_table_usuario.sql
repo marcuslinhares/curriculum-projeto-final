@@ -4,5 +4,5 @@ CREATE TABLE "curriculum"."usuario" (
   "email" varchar(126) UNIQUE NOT NULL,
   "senha" varchar(255) NOT NULL,
   "created_at" timestamp NOT NULL,
-  "role_id" uuid NOT NULL
+  "regra_id" uuid NOT NULL
 );
