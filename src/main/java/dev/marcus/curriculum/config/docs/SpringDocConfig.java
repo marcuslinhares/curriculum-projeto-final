@@ -29,7 +29,7 @@ public class SpringDocConfig {
     private String serverPort;
 
     @Bean
-    public OpenAPI customOpenAPI() throws IOException {
+    OpenAPI customOpenAPI() throws IOException {
     var key = "default";
 
     ApiResponse badRequest = new ApiResponse().content(
@@ -93,7 +93,7 @@ public class SpringDocConfig {
     }
 
     @Bean
-    private GroupedOpenApi producersGroup() {
+    GroupedOpenApi producersGroup() {
         String[] paths = {"/**"};
         return GroupedOpenApi.builder().group("Geral").pathsToMatch(paths).build();
     }
