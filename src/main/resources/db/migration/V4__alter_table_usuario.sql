@@ -1,2 +1,5 @@
 ALTER TABLE "curriculum"."usuario"
-ADD COLUMN "updated_at" timestamp;
+ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE "curriculum"."usuario"
+ALTER COLUMN "updated_at" SET DEFAULT CURRENT_TIMESTAMP;

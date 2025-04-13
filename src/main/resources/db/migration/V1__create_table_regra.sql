@@ -1,4 +1,4 @@
 CREATE TABLE "curriculum"."regra" (
   "id" uuid PRIMARY KEY,
-  "nome" regra_nome UNIQUE NOT NULL
+  "nome" varchar(255) UNIQUE NOT NULL
 );
