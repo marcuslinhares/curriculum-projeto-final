@@ -42,5 +42,4 @@ public class UsuarioEntity extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "regra_id", nullable = false)
     private RegraEntity regra;
-    
 }
