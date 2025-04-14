@@ -1,6 +1,7 @@
 package dev.marcus.curriculum.models.DTOS.requests;
 
 import dev.marcus.curriculum.validations.SenhasIguais;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -12,6 +13,7 @@ public record ReqRegistroUsuarioDTO(
 
     @NotBlank(message = "O email do novo usuario deve ser informado")
     @Size(max = 256, message = "O email do novo usuario não deve possir mais que 256 caracteres")
+    @Email(message = "O email do novo usuario precisa ser válido")
     String email,
 
     @NotBlank(message = "A senha do novo usuario deve ser informado")
