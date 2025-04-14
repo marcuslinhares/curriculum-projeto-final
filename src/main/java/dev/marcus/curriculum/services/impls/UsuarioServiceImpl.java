@@ -1,6 +1,7 @@
 package dev.marcus.curriculum.services.impls;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final RegraService regraService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ResRegistroUsuarioDTO save(ReqRegistroUsuarioDTO dto) {
@@ -31,6 +33,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         var usuario = UsuarioMapper.fromReqRegistroDTOToEntity(dto);
         usuario.setRegra(this.regraService.findByNome(RegraNomeEnum.CANDIDATO));
+        usuario.setSenha(this.passwordEncoder.encode(usuario.getSenha()));
 
         return UsuarioMapper.fromEntityToResRegistroDTO(
             this.usuarioRepository.save(usuario));

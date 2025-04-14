@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @Tag(name = "Usuários")
 @RequiredArgsConstructor
-@RequestMapping("/usuarios")
+@RequestMapping(path = "/usuarios")
 public class UsuarioControllerImpl implements UsuarioController{
   private final UsuarioService usuarioService;
 
