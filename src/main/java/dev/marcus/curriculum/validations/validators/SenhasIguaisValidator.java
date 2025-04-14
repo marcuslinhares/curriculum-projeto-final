@@ -9,6 +9,14 @@ public class SenhasIguaisValidator  implements ConstraintValidator<SenhasIguais,
     
     @Override
     public boolean isValid(ReqRegistroUsuarioDTO dto, ConstraintValidatorContext context) {
-        return dto.senha().equals(dto.confirmaSenha());
+        if (!dto.senha().equals(dto.confirmaSenha())) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(
+                "As senhas não coincidem"
+            ).addPropertyNode("confirma_senha").addConstraintViolation();
+            return false;
+        }
+
+        return true;
     }
 }
