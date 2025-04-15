@@ -10,9 +10,9 @@ public abstract class UsuarioMapper {
         ReqRegistroUsuarioDTO dto
     ){
         return UsuarioEntity.builder()
-        .nome(dto.nome())
-        .email(dto.email())
-        .senha(dto.senha())
+            .nome(dto.nome())
+            .email(dto.email())
+            .senha(dto.senha())
         .build();
     }
 
