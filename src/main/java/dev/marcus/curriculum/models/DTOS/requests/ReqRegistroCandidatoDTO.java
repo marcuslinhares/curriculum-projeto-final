@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.hibernate.validator.constraints.br.CPF;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 
 public record ReqRegistroCandidatoDTO(
@@ -13,7 +14,7 @@ public record ReqRegistroCandidatoDTO(
     @CPF(message = "O cpf deve ser válido")
     String cpf,
 
-    @NotBlank(message = "O data de nascimento é obrigatória")
+    @NotNull(message = "A data de nascimento é obrigátoria")
     @Past(message = "A data de nascimento deve ser uma data no passado")
     LocalDate dataNasc,
 

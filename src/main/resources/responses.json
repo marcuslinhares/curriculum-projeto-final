@@ -11,6 +11,9 @@
   "notFoundResponse": {
     "message": "Recurso não encontrado!"
   },
+  "conflictResponse": {
+    "message": "Recurso já existe"
+  },
   "unauthorizedResponse": {
     "message": "Não autorizado, precisa se autenticar!"
   },

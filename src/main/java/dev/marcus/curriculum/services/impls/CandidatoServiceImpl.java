@@ -6,6 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCandidatoDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCandidatoDTO;
+import dev.marcus.curriculum.models.enums.SituacaoEnum;
 import dev.marcus.curriculum.models.mappers.CandidatoMapper;
 import dev.marcus.curriculum.repositories.CandidatoRepository;
 import dev.marcus.curriculum.services.AutenticacaoService;
@@ -20,7 +21,7 @@ public class CandidatoServiceImpl implements CandidatoService{
 
     @Override
     public ResRegistroCandidatoDTO save(ReqRegistroCandidatoDTO dto) {
-        if (this.candidatoRepository.findByCpf(dto.cpf()).isEmpty()) {
+        if (this.candidatoRepository.findByCpf(dto.cpf()).isPresent()) {
             throw new ResponseStatusException(
                 HttpStatus.CONFLICT,
                 "O cpf informado já foi cadastrado"
@@ -29,6 +30,8 @@ public class CandidatoServiceImpl implements CandidatoService{
         
         var candidato = CandidatoMapper.fromReqRegistroDTOToEntity(dto);
         candidato.setUsuario(this.autenticacaoService.getLoggedUser());
-        return CandidatoMapper.fromEntityToResRegistroDTO(candidato);
+        candidato.setSituacao(SituacaoEnum.SEM_CURRICULO);
+        var candidatoSalvo = this.candidatoRepository.save(candidato);
+        return CandidatoMapper.fromEntityToResRegistroDTO(candidatoSalvo);
     }
 }

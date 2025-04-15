@@ -4,18 +4,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroUsuarioDTO;
-import dev.marcus.curriculum.models.DTOS.responses.ResRegistroUsuarioDTO;
+import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCandidatoDTO;
+import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCandidatoDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 
-@Tag(name = "Usuarios")
-public interface UsuarioController {
+@Tag(name = "Candidatos")
+public interface CandidatoController {
     @Operation(
-        summary = "Cadastra novo usuário no sistema.",
+        summary = "Cadastra novo candidato no sistema.",
         responses = {
             @ApiResponse(responseCode = "201"),
             @ApiResponse(responseCode = "400", ref = "badRequest"),
@@ -23,8 +24,9 @@ public interface UsuarioController {
             @ApiResponse(responseCode = "500", ref = "internalServerError")
         }
     )
-    ResponseEntity<ResRegistroUsuarioDTO> save(
-        @Valid @RequestBody ReqRegistroUsuarioDTO dto,
+    @SecurityRequirement(name = "bearerKey")
+    ResponseEntity<ResRegistroCandidatoDTO> save(
+        @Valid @RequestBody ReqRegistroCandidatoDTO dto,
         UriComponentsBuilder uriBuilder
     );
 }

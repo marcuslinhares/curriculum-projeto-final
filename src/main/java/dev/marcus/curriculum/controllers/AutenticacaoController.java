@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Autenticação")
 public interface AutenticacaoController {
-    @Tag(name = "Autenticação")
     @Operation(
         summary = "Login com BasicAuth para resgatar token JWT.",
         responses = {

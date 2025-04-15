@@ -11,12 +11,10 @@ import dev.marcus.curriculum.controllers.UsuarioController;
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroUsuarioDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroUsuarioDTO;
 import dev.marcus.curriculum.services.UsuarioService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@Tag(name = "Usuários")
 @RequiredArgsConstructor
 @RequestMapping(path = "/usuarios")
 public class UsuarioControllerImpl implements UsuarioController{
