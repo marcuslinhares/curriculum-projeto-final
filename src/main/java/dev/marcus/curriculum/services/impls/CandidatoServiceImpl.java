@@ -1,5 +1,7 @@
 package dev.marcus.curriculum.services.impls;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,5 +35,18 @@ public class CandidatoServiceImpl implements CandidatoService{
         candidato.setSituacao(SituacaoEnum.SEM_CURRICULO);
         var candidatoSalvo = this.candidatoRepository.save(candidato);
         return CandidatoMapper.fromEntityToResRegistroDTO(candidatoSalvo);
+    }
+
+    @Override
+    public void UpdateSituacao(UUID candidatoId, SituacaoEnum situacao) {
+        var candidato = this.candidatoRepository.findById(candidatoId).orElseThrow(
+            () -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "O candidato com id informado não existe na base de dados"
+            )
+        );
+
+        candidato.setSituacao(situacao);
+        this.candidatoRepository.save(candidato);
     }
 }
