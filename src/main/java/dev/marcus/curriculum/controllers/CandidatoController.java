@@ -1,5 +1,7 @@
 package dev.marcus.curriculum.controllers;
 
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -25,5 +27,20 @@ public interface CandidatoController {
     ResponseEntity<ResRegistroCandidatoDTO> save(
         ReqRegistroCandidatoDTO dto,
         UriComponentsBuilder uriBuilder
+    );
+
+    @Operation(
+        summary = "Aprova ou Reprova um candidato.",
+        responses = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400"),
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "403", ref = "forbidden"),
+            @ApiResponse(responseCode = "500", ref = "internalServerError")
+        }
+    )
+    @SecurityRequirement(name = "bearerKey")
+    ResponseEntity<ResRegistroCandidatoDTO> aprovaReprovaCandidato(
+        UUID candidatoId, boolean aprovado
     );
 }
