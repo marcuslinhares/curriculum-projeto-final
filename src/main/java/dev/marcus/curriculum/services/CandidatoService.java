@@ -8,5 +8,6 @@ import dev.marcus.curriculum.models.enums.SituacaoEnum;
 
 public interface CandidatoService {
     ResRegistroCandidatoDTO save(ReqRegistroCandidatoDTO dto);
-    void UpdateSituacao(UUID candidatoId, SituacaoEnum situacao);
+    ResRegistroCandidatoDTO updateSituacao(UUID candidatoId, SituacaoEnum situacao);
+    ResRegistroCandidatoDTO aprovarReprovarCandidato(UUID candidatoId, boolean aprovado);
 }

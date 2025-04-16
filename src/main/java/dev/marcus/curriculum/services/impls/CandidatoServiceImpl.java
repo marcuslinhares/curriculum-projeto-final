@@ -38,7 +38,7 @@ public class CandidatoServiceImpl implements CandidatoService{
     }
 
     @Override
-    public void UpdateSituacao(UUID candidatoId, SituacaoEnum situacao) {
+    public ResRegistroCandidatoDTO updateSituacao(UUID candidatoId, SituacaoEnum situacao) {
         var candidato = this.candidatoRepository.findById(candidatoId).orElseThrow(
             () -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND,
@@ -47,6 +47,16 @@ public class CandidatoServiceImpl implements CandidatoService{
         );
 
         candidato.setSituacao(situacao);
-        this.candidatoRepository.save(candidato);
+        return CandidatoMapper.fromEntityToResRegistroDTO(
+            this.candidatoRepository.save(candidato)
+        );
+    }
+
+    @Override
+    public ResRegistroCandidatoDTO aprovarReprovarCandidato(UUID candidatoId, boolean aprovado) {
+        if (aprovado) {
+            return this.updateSituacao(candidatoId, SituacaoEnum.APROVADO);
+        }
+        return this.updateSituacao(candidatoId, SituacaoEnum.REPROVADO);
     }
 }
