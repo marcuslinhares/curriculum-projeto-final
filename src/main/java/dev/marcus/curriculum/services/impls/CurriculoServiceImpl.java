@@ -16,6 +16,7 @@ import dev.marcus.curriculum.models.enums.SituacaoEnum;
 import dev.marcus.curriculum.models.mappers.CandidatoMapper;
 import dev.marcus.curriculum.models.mappers.CompetenciaMapper;
 import dev.marcus.curriculum.models.mappers.CurriculoMapper;
+import dev.marcus.curriculum.models.mappers.UsuarioMapper;
 import dev.marcus.curriculum.repositories.CurriculoRepository;
 import dev.marcus.curriculum.services.AutenticacaoService;
 import dev.marcus.curriculum.services.CandidatoService;
@@ -61,7 +62,7 @@ public class CurriculoServiceImpl implements CurriculoService{
         var curriculoSalvo = this.curriculoRepository.save(curriculo);
         this.candidatoService.updateSituacao(candidato.getId(), SituacaoEnum.AGUARDANDO_ANALISE);
 
-        return curriculoResponse(candidato, competencias, curriculoSalvo);
+        return curriculoResponseBuilder(candidato, competencias, curriculoSalvo);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class CurriculoServiceImpl implements CurriculoService{
         var curriculos = this.curriculoRepository.curriculosOrdenadosPorSituacao(pageable);
         var curriculosResponse = curriculos.stream().map(
            c -> {
-            return this.curriculoResponse(c.getCandidato(), c.getCompetencias(), c);
+            return this.curriculoResponseBuilder(c.getCandidato(), c.getCompetencias(), c);
            }
         ).toList();
 
@@ -77,10 +78,12 @@ public class CurriculoServiceImpl implements CurriculoService{
     }
 
 
-    private ResRegistroCurriculoDTO curriculoResponse(
+    private ResRegistroCurriculoDTO curriculoResponseBuilder(
         CandidatoEntity candidato, List<CompetenciaEntity> competencias, CurriculoEntity curriculo
     ){
-        var candidatoResponse = CandidatoMapper.fromEntityToResRegistroDTO(candidato);
+        var candidatoResponse = CandidatoMapper.fromEntityToResRegistroDTO(
+            candidato, UsuarioMapper.fromEntityToResRegistroDTO(candidato.getUsuario())
+        );
         var competenciasResponse = curriculo.getCompetencias().stream()
             .map(CompetenciaMapper::fromEntityToResRegistroDTO)
         .toList();

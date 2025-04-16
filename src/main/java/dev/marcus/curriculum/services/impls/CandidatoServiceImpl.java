@@ -10,6 +10,7 @@ import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCandidatoDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCandidatoDTO;
 import dev.marcus.curriculum.models.enums.SituacaoEnum;
 import dev.marcus.curriculum.models.mappers.CandidatoMapper;
+import dev.marcus.curriculum.models.mappers.UsuarioMapper;
 import dev.marcus.curriculum.repositories.CandidatoRepository;
 import dev.marcus.curriculum.services.AutenticacaoService;
 import dev.marcus.curriculum.services.CandidatoService;
@@ -34,7 +35,13 @@ public class CandidatoServiceImpl implements CandidatoService{
         candidato.setUsuario(this.autenticacaoService.getLoggedUser());
         candidato.setSituacao(SituacaoEnum.SEM_CURRICULO);
         var candidatoSalvo = this.candidatoRepository.save(candidato);
-        return CandidatoMapper.fromEntityToResRegistroDTO(candidatoSalvo);
+
+        return CandidatoMapper.fromEntityToResRegistroDTO(
+            candidatoSalvo,
+            UsuarioMapper.fromEntityToResRegistroDTO(
+                candidatoSalvo.getUsuario()
+            )
+        );
     }
 
     @Override
@@ -48,7 +55,8 @@ public class CandidatoServiceImpl implements CandidatoService{
 
         candidato.setSituacao(situacao);
         return CandidatoMapper.fromEntityToResRegistroDTO(
-            this.candidatoRepository.save(candidato)
+            this.candidatoRepository.save(candidato),
+            UsuarioMapper.fromEntityToResRegistroDTO(candidato.getUsuario())
         );
     }
 

@@ -12,7 +12,8 @@ public record ResRegistroCandidatoDTO(
     String cpf,
     LocalDate dataNasc,
     String telefone,
-    SituacaoEnum situacao
+    SituacaoEnum situacao,
+    ResRegistroUsuarioDTO usuario
 ) {
 
 }

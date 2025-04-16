@@ -2,6 +2,7 @@ package dev.marcus.curriculum.models.mappers;
 
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCandidatoDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCandidatoDTO;
+import dev.marcus.curriculum.models.DTOS.responses.ResRegistroUsuarioDTO;
 import dev.marcus.curriculum.models.entities.CandidatoEntity;
 
 public abstract class CandidatoMapper {
@@ -17,7 +18,7 @@ public abstract class CandidatoMapper {
     }
 
     public static ResRegistroCandidatoDTO fromEntityToResRegistroDTO(
-        CandidatoEntity candidato
+        CandidatoEntity candidato, ResRegistroUsuarioDTO usuario
     ){
         return ResRegistroCandidatoDTO.builder()
             .id(candidato.getId())
@@ -25,6 +26,7 @@ public abstract class CandidatoMapper {
             .dataNasc(candidato.getDataNasc())
             .telefone(candidato.getTelefone())
             .situacao(candidato.getSituacao())
+            .usuario(usuario)
         .build();
     }
 }
