@@ -40,13 +40,15 @@ public class CurriculoServiceImpl implements CurriculoService{
         curriculo.setCandidato(candidato);
         curriculo.setCompetencias(competencias);
 
+        var curriculoSalvo = this.curriculoRepository.save(curriculo);
+
         var candidatoResponse = CandidatoMapper.fromEntityToResRegistroDTO(candidato);
-        var competenciasResponse = competencias.stream()
+        var competenciasResponse = curriculoSalvo.getCompetencias().stream()
             .map(CompetenciaMapper::fromEntityToResRegistroDTO)
         .toList();
 
         return CurriculoMapper.fromEntityToResRegistroDTO(
-            curriculo, candidatoResponse, competenciasResponse
+            curriculoSalvo, candidatoResponse, competenciasResponse
         );
     }
 }
