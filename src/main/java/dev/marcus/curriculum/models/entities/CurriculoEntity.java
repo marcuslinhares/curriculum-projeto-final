@@ -1,10 +1,8 @@
 package dev.marcus.curriculum.models.entities;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
-import dev.marcus.curriculum.models.enums.SituacaoEnum;
-import jakarta.persistence.CascadeType;
+import dev.marcus.curriculum.models.enums.EscolaridadeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,37 +19,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "candidato", schema = "curriculum")
-@Entity(name = "candidato")
+@Table(name = "curriculo", schema = "curriculum")
+@Entity(name = "curriculo")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
-public class CandidatoEntity extends BaseEntity{
+public class CurriculoEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(generator = "UUID")
     private UUID id;
 
-    @Column(length = 11, nullable = false, unique = true)
-    private String cpf;
-
-    @Column(nullable = false)
-    private LocalDate dataNasc;
-
-    @Column(length = 14, nullable = false)
-    private String telefone;
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private SituacaoEnum situacao;
+    private EscolaridadeEnum escolaridade;
+
+    @Column(nullable = false)
+    private String funcao;
 
     @OneToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private UsuarioEntity usuario;
-
-    @OneToOne(mappedBy = "candidato", cascade = CascadeType.REMOVE)
-    private CurriculoEntity curriculo;
+    @JoinColumn(name = "candidato_id", nullable = false)
+    private CandidatoEntity candidato;
 }
