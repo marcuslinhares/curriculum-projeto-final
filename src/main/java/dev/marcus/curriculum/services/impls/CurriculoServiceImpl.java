@@ -35,6 +35,13 @@ public class CurriculoServiceImpl implements CurriculoService{
     public ResRegistroCurriculoDTO save(ReqRegistroCurriculoDTO dto) {
         var candidato = autenticacaoService.getLoggedUser().getCandidato();
 
+        if (candidato == null) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "O usuário não completou o cadastro"
+            );
+        }
+
         if (this.curriculoRepository.findByCandidatoId(candidato.getId()).isPresent()) {
             throw new ResponseStatusException(
                 HttpStatus.CONFLICT,
