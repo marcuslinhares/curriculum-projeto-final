@@ -3,17 +3,17 @@ package dev.marcus.curriculum.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCandidatoDTO;
-import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCandidatoDTO;
+import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCurriculoDTO;
+import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCurriculoDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Candidatos")
-public interface CandidatoController {
+@Tag(name = "Curriculos")
+public interface CurriculoController {
     @Operation(
-        summary = "Cadastra novo candidato no sistema.",
+        summary = "Cadastra novo curriculo no sistema.",
         responses = {
             @ApiResponse(responseCode = "201"),
             @ApiResponse(responseCode = "400", ref = "badRequest"),
@@ -22,8 +22,8 @@ public interface CandidatoController {
         }
     )
     @SecurityRequirement(name = "bearerKey")
-    ResponseEntity<ResRegistroCandidatoDTO> save(
-        ReqRegistroCandidatoDTO dto,
+    ResponseEntity<ResRegistroCurriculoDTO> save(
+        ReqRegistroCurriculoDTO dto,
         UriComponentsBuilder uriBuilder
     );
 }

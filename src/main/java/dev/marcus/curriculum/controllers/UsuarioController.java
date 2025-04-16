@@ -1,7 +1,6 @@
 package dev.marcus.curriculum.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroUsuarioDTO;
@@ -9,8 +8,6 @@ import dev.marcus.curriculum.models.DTOS.responses.ResRegistroUsuarioDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-
 
 @Tag(name = "Usuarios")
 public interface UsuarioController {
@@ -24,7 +21,7 @@ public interface UsuarioController {
         }
     )
     ResponseEntity<ResRegistroUsuarioDTO> save(
-        @Valid @RequestBody ReqRegistroUsuarioDTO dto,
+        ReqRegistroUsuarioDTO dto,
         UriComponentsBuilder uriBuilder
     );
 }
