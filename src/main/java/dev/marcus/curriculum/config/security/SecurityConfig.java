@@ -1,9 +1,5 @@
 package dev.marcus.curriculum.config.security;
 
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,16 +23,13 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 
 import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
-    @Value("${jwt.public.key}")
-    private RSAPublicKey publicKey;
 
-    @Value("${jwt.private.key}")
-    private RSAPrivateKey privateKey;
+    private final JwtKeyProvider keyProvider;
 
     @Bean
     SecurityFilterChain filterChainJwtAuth(
@@ -48,9 +41,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/docs",
-                    "/swagger-ui/**",
-                    "/v3/api-docs/**"
+                    "/docs", "/swagger-ui/**", "/v3/api-docs/**"
                 ).permitAll()
                 .requestMatchers(HttpMethod.POST, "/autenticacao").permitAll()
                 .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
@@ -64,12 +55,14 @@ public class SecurityConfig {
 
     @Bean
     JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withPublicKey(publicKey).build();
+        return NimbusJwtDecoder.withPublicKey(keyProvider.getPublicKey()).build();
     }
 
     @Bean
     JwtEncoder jwtEncoder() {
-        var jwk = new RSAKey.Builder(publicKey).privateKey(privateKey).build();
+        var jwk = new RSAKey.Builder(keyProvider.getPublicKey())
+            .privateKey(keyProvider.getPrivateKey())
+            .build();
         var jwkSet = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwkSet);
     }
