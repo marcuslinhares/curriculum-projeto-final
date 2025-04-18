@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import dev.marcus.curriculum.models.entities.CurriculoEntity;
 
 public interface CurriculoRepository extends JpaRepository<CurriculoEntity, UUID>{
-    Optional<CurriculoEntity> findByCandidatoId(UUID id);
+    Optional<CurriculoEntity> findByCandidato_Id(UUID id);
 
     @Query("""
         SELECT c FROM curriculo c

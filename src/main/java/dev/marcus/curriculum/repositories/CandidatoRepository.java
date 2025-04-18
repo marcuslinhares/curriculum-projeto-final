@@ -10,4 +10,5 @@ import java.util.Optional;
 
 public interface CandidatoRepository extends JpaRepository<CandidatoEntity, UUID>{
     Optional<CandidatoEntity> findByCpf(String cpf);
+    Optional<CandidatoEntity> findByUsuario_Id(UUID id);
 }

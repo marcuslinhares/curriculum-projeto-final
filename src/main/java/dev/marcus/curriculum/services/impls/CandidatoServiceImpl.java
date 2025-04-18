@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCandidatoDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCandidatoDTO;
+import dev.marcus.curriculum.models.entities.CandidatoEntity;
 import dev.marcus.curriculum.models.enums.SituacaoEnum;
 import dev.marcus.curriculum.models.mappers.CandidatoMapper;
 import dev.marcus.curriculum.models.mappers.UsuarioMapper;
@@ -66,5 +67,17 @@ public class CandidatoServiceImpl implements CandidatoService{
             return this.updateSituacao(candidatoId, SituacaoEnum.APROVADO);
         }
         return this.updateSituacao(candidatoId, SituacaoEnum.REPROVADO);
+    }
+
+    @Override
+    public CandidatoEntity findByLogedUser() {
+        return this.candidatoRepository.findByUsuario_Id(
+            autenticacaoService.getLoggedUser().getId()
+        ).orElseThrow(
+            () -> new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "O usuário não completou o cadastro"
+            )
+        );
     }
 }
