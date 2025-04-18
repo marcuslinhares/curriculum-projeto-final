@@ -84,7 +84,7 @@ public class SpringDocConfig {
 
     var servers = new ArrayList<Server>();
     servers.add(new Server().url("http://localhost:"+ serverPort +"/api").description("DESENVOLVIMENTO LOCALHOST"));
-    servers.add(new Server().url(this.productionUrl +"/api").description("PRODUÇÂO"));
+    servers.add(new Server().url(this.productionUrl +"api").description("PRODUÇÂO"));
 
     return new OpenAPI()
         .info(new Info()
