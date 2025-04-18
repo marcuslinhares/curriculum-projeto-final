@@ -10,4 +10,5 @@ import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCurriculoDTO;
 public interface CurriculoService {
     ResRegistroCurriculoDTO save(ReqRegistroCurriculoDTO dto);
     List<ResRegistroCurriculoDTO> findAll(Pageable pageable);
+    ResRegistroCurriculoDTO findByLogedUser();
 }

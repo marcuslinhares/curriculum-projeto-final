@@ -15,6 +15,7 @@ public interface AutenticacaoController {
         responses = {
             @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "404", ref = "notFound"),
             @ApiResponse(responseCode = "500", ref = "internalServerError")
         }
     )

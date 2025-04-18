@@ -43,4 +43,18 @@ public interface CurriculoController {
     ResponseEntity<List<ResRegistroCurriculoDTO>> findAll(
         int page, int size
     );
+
+    @Operation(
+        summary = "Busca currículo do usuario logado.",
+        responses = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400"),
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "403", ref = "forbidden"),
+            @ApiResponse(responseCode = "404", ref = "notFound"),
+            @ApiResponse(responseCode = "500", ref = "internalServerError")
+        }
+    )
+    @SecurityRequirement(name = "bearerKey")
+    ResponseEntity<ResRegistroCurriculoDTO> findByLogedUser();
 }

@@ -18,7 +18,6 @@ import dev.marcus.curriculum.models.mappers.CompetenciaMapper;
 import dev.marcus.curriculum.models.mappers.CurriculoMapper;
 import dev.marcus.curriculum.models.mappers.UsuarioMapper;
 import dev.marcus.curriculum.repositories.CurriculoRepository;
-import dev.marcus.curriculum.services.AutenticacaoService;
 import dev.marcus.curriculum.services.CandidatoService;
 import dev.marcus.curriculum.services.CurriculoService;
 import jakarta.transaction.Transactional;
@@ -29,21 +28,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CurriculoServiceImpl implements CurriculoService{
     private final CurriculoRepository curriculoRepository;
-    private final AutenticacaoService autenticacaoService;
     private final CandidatoService candidatoService;
 
     @Override
     public ResRegistroCurriculoDTO save(ReqRegistroCurriculoDTO dto) {
-        var candidato = autenticacaoService.getLoggedUser().getCandidato();
+        var candidato = candidatoService.findByLogedUser();
 
-        if (candidato == null) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "O usuário não completou o cadastro"
-            );
-        }
-
-        if (this.curriculoRepository.findByCandidatoId(candidato.getId()).isPresent()) {
+        if (this.curriculoRepository.findByCandidato_Id(
+            candidato.getId()).isPresent()
+        ) {
             throw new ResponseStatusException(
                 HttpStatus.CONFLICT,
                 "O candidato já possui um currículo cadastrado"
@@ -77,6 +70,25 @@ public class CurriculoServiceImpl implements CurriculoService{
         return curriculosResponse;
     }
 
+    @Override
+    public ResRegistroCurriculoDTO findByLogedUser() {
+        var candidato = this.candidatoService.findByLogedUser();
+
+        var curriculo = this.curriculoRepository.findByCandidato_Id(candidato.getId()).orElseThrow(
+            () -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "O candidato não cadastrou seu currículo"
+            )
+        );
+            
+        var competencias = curriculo.getCompetencias();
+
+        return this.curriculoResponseBuilder(
+            candidato,
+            competencias,
+            curriculo
+        );
+    }
 
     private ResRegistroCurriculoDTO curriculoResponseBuilder(
         CandidatoEntity candidato, List<CompetenciaEntity> competencias, CurriculoEntity curriculo
@@ -92,4 +104,5 @@ public class CurriculoServiceImpl implements CurriculoService{
             curriculo, candidatoResponse, competenciasResponse
         );
     }
+
 }
