@@ -36,6 +36,7 @@ public interface CandidatoController {
             @ApiResponse(responseCode = "400"),
             @ApiResponse(responseCode = "401", ref = "unauthorized"),
             @ApiResponse(responseCode = "403", ref = "forbidden"),
+            @ApiResponse(responseCode = "404", ref = "notFound"),
             @ApiResponse(responseCode = "500", ref = "internalServerError")
         }
     )

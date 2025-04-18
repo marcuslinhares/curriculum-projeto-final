@@ -15,9 +15,11 @@ import dev.marcus.curriculum.models.mappers.UsuarioMapper;
 import dev.marcus.curriculum.repositories.CandidatoRepository;
 import dev.marcus.curriculum.services.AutenticacaoService;
 import dev.marcus.curriculum.services.CandidatoService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CandidatoServiceImpl implements CandidatoService{
     private final CandidatoRepository candidatoRepository;

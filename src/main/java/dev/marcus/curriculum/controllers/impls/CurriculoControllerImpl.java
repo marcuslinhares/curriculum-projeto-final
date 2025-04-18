@@ -36,7 +36,7 @@ public class CurriculoControllerImpl implements CurriculoController{
     ) {
         var response = curriculoService.save(dto);
         var uri = uriBuilder.path("/curriculo/{id}").buildAndExpand(response.id()).toUri();
-        return ResponseEntity.created(uri).body(response); 
+        return ResponseEntity.created(uri).body(response);
     }
 
     @Override
@@ -48,5 +48,14 @@ public class CurriculoControllerImpl implements CurriculoController{
         return ResponseEntity.status(HttpStatus.OK).body(
             this.curriculoService.findAll(PageRequest.of(page, size))
         );
+    }
+
+    @Override
+    @GetMapping(path = "/loged-user")
+    @PreAuthorize("hasAuthority('SCOPE_CANDIDATO')")
+    public ResponseEntity<ResRegistroCurriculoDTO> findByLogedUser() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            this.curriculoService.findByLogedUser()
+        ); 
     }
 }
