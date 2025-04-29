@@ -45,6 +45,7 @@ public class SecurityConfig {
                 ).permitAll()
                 .requestMatchers(HttpMethod.POST, "/autenticacao").permitAll()
                 .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                .requestMatchers(HttpMethod.GET, "/ping").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(conf -> conf.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
