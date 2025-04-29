@@ -6,9 +6,9 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: minha-api
+  IMAGE_NAME: curriculum-api
   IMAGE_TAG: latest
-  SERVICE_NAME: minha-api
+  SERVICE_NAME: curriculum-api
   CONTAINER_PORT: 8080
   HOST_PORT: 8080
 
