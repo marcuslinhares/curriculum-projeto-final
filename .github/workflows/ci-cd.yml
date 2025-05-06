@@ -43,11 +43,6 @@ jobs:
         key: ${{ secrets.VPS_SSH_KEY }}
         envs: REGISTRY,IMAGE_NAME,IMAGE_TAG,SERVICE_NAME,CONTAINER_PORT,HOST_PORT
         script: |
-          echo "Verificando o nome do serviço: $SERVICE_NAME"
-          if [ -z "$SERVICE_NAME" ]; then
-            echo "Erro: SERVICE_NAME não está definido."
-            exit 1
-          fi
           
           docker service update \
             --image $REGISTRY/${{ github.repository_owner }}/$IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME || \
