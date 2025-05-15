@@ -51,6 +51,7 @@ jobs:
           --build-arg JWT_PRIVATE_KEY="${{ secrets.JWT_PRIVATE_KEY }}" \
           --build-arg JWT_PUBLIC_KEY="${{ secrets.JWT_PUBLIC_KEY }}" \
           --build-arg PRODURL="${{ secrets.PRODURL }}" \
+          --load .
         docker push $REGISTRY/${{ github.repository_owner }}/$IMAGE_NAME:$IMAGE_TAG
 
     - name: SSH na VPS e fazer deploy com Docker Swarm
