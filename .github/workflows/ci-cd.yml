@@ -3,7 +3,7 @@ name: Build e Deploy
 on:
   push:
     branches: [main]
-
+    
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: curriculum-api
