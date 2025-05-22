@@ -20,6 +20,18 @@ jobs:
     - name: Checkout do código
       uses: actions/checkout@v3
 
+    - name: Create file from APP_KEY
+      run: echo "${{ secrets.JWT_PRIVATE_KEY }}" > app.key
+
+    - name: Create file from APP_PUB
+      run: echo "${{ secrets.JWT_PUBLIC_KEY }}" > app.pub
+
+    - name: Copy secrets to resources directory
+      run: |
+        mkdir -p src/main/resources
+        cp app.key src/main/resources/
+        cp app.pub src/main/resources/
+
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
