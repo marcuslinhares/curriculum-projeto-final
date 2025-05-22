@@ -19,17 +19,11 @@ public class JwtKeyProvider {
     private final RSAPublicKey publicKey;
 
     public JwtKeyProvider(
-        @Value("${jwt.private.key}") String privateKeySource,
-        @Value("${jwt.public.key}") String publicKeySource,
-        @Value("${spring.profiles.active:dev}") String activeProfile
+        @Value("${jwt.private.key}") String privateKeyLocation,
+        @Value("${jwt.public.key}") String publicKeyLocation
     ) throws Exception {
-        if ("prod".equalsIgnoreCase(activeProfile)) {
-            this.privateKey = loadPrivateKeyFromString(privateKeySource);
-            this.publicKey = loadPublicKeyFromString(publicKeySource);
-        } else {
-            this.privateKey = loadPrivateKeyFromFile(privateKeySource);
-            this.publicKey = loadPublicKeyFromFile(publicKeySource);
-        }
+        this.privateKey = loadPrivateKeyFromFile(privateKeyLocation);
+        this.publicKey = loadPublicKeyFromFile(publicKeyLocation);
     }
 
     public RSAPrivateKey getPrivateKey() {
@@ -38,6 +32,20 @@ public class JwtKeyProvider {
 
     public RSAPublicKey getPublicKey() {
         return publicKey;
+    }
+
+    private RSAPrivateKey loadPrivateKeyFromFile(String location) throws Exception {
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream(location.replace("classpath:", ""))) {
+            byte[] bytes = in.readAllBytes();
+            return loadPrivateKeyFromString(new String(bytes, StandardCharsets.UTF_8));
+        }
+    }
+
+    private RSAPublicKey loadPublicKeyFromFile(String location) throws Exception {
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream(location.replace("classpath:", ""))) {
+            byte[] bytes = in.readAllBytes();
+            return loadPublicKeyFromString(new String(bytes, StandardCharsets.UTF_8));
+        }
     }
 
     private RSAPrivateKey loadPrivateKeyFromString(String key) throws Exception {
@@ -52,17 +60,5 @@ public class JwtKeyProvider {
         byte[] decoded = Base64.getDecoder().decode(pem);
         var spec = new X509EncodedKeySpec(decoded);
         return (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(spec);
-    }
-
-    private RSAPrivateKey loadPrivateKeyFromFile(String location) throws Exception {
-        InputStream in = getClass().getClassLoader().getResourceAsStream(location.replace("classpath:", ""));
-        byte[] bytes = in.readAllBytes();
-        return loadPrivateKeyFromString(new String(bytes, StandardCharsets.UTF_8));
-    }
-
-    private RSAPublicKey loadPublicKeyFromFile(String location) throws Exception {
-        InputStream in = getClass().getClassLoader().getResourceAsStream(location.replace("classpath:", ""));
-        byte[] bytes = in.readAllBytes();
-        return loadPublicKeyFromString(new String(bytes, StandardCharsets.UTF_8));
     }
 }
