@@ -1,7 +1,6 @@
 package dev.marcus.curriculum.controllers;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -40,7 +39,7 @@ public interface CurriculoController {
         }
     )
     @SecurityRequirement(name = "bearerKey")
-    ResponseEntity<List<ResRegistroCurriculoDTO>> findAll(
+    ResponseEntity<Page<ResRegistroCurriculoDTO>> findAll(
         int page, int size
     );
 

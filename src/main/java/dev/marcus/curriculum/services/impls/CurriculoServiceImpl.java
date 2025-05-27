@@ -2,6 +2,7 @@ package dev.marcus.curriculum.services.impls;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -59,15 +60,21 @@ public class CurriculoServiceImpl implements CurriculoService{
     }
 
     @Override
-    public List<ResRegistroCurriculoDTO> findAll(Pageable pageable) {
-        var curriculos = this.curriculoRepository.curriculosOrdenadosPorSituacao(pageable);
-        var curriculosResponse = curriculos.stream().map(
-           c -> {
-            return this.curriculoResponseBuilder(c.getCandidato(), c.getCompetencias(), c);
-           }
-        ).toList();
-
-        return curriculosResponse;
+    public Page<ResRegistroCurriculoDTO> findAll(Pageable pageable) {
+        return this.curriculoRepository.curriculosOrdenadosPorSituacao(pageable).map(
+            (curriculo) -> {
+                return CurriculoMapper.fromEntityToResRegistroDTO(
+                    curriculo, CandidatoMapper.fromEntityToResRegistroDTO(
+                        curriculo.getCandidato(),
+                        UsuarioMapper.fromEntityToResRegistroDTO(
+                            curriculo.getCandidato().getUsuario()
+                        )
+                    ), curriculo.getCompetencias().stream().map(
+                        CompetenciaMapper::fromEntityToResRegistroDTO
+                    ).toList()
+                );
+            }
+        );
     }
 
     @Override

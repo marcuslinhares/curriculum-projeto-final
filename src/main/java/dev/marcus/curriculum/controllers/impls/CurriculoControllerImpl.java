@@ -1,7 +1,6 @@
 package dev.marcus.curriculum.controllers.impls;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +41,7 @@ public class CurriculoControllerImpl implements CurriculoController{
     @Override
     @GetMapping(params = {"page", "size"})
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<List<ResRegistroCurriculoDTO>> findAll(
+    public ResponseEntity<Page<ResRegistroCurriculoDTO>> findAll(
         @RequestParam int page, @RequestParam int size
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(
