@@ -1,5 +1,7 @@
 package dev.marcus.curriculum.services;
 
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,4 +12,5 @@ public interface CurriculoService {
     ResRegistroCurriculoDTO save(ReqRegistroCurriculoDTO dto);
     Page<ResRegistroCurriculoDTO> findAll(Pageable pageable);
     ResRegistroCurriculoDTO findByLogedUser();
+    ResRegistroCurriculoDTO findById(UUID id);
 }

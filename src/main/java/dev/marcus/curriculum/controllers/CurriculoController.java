@@ -1,5 +1,7 @@
 package dev.marcus.curriculum.controllers;
 
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -56,4 +58,18 @@ public interface CurriculoController {
     )
     @SecurityRequirement(name = "bearerKey")
     ResponseEntity<ResRegistroCurriculoDTO> findByLogedUser();
+
+    @Operation(
+        summary = "Busca currículo por Id.",
+        responses = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400"),
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "403", ref = "forbidden"),
+            @ApiResponse(responseCode = "404", ref = "notFound"),
+            @ApiResponse(responseCode = "500", ref = "internalServerError")
+        }
+    )
+    @SecurityRequirement(name = "bearerKey")
+    ResponseEntity<ResRegistroCurriculoDTO> findById(UUID id);
 }

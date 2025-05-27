@@ -23,12 +23,12 @@ public abstract class CurriculoMapper {
         CurriculoEntity curriculo, ResRegistroCandidatoDTO candidato,
         List<ResRegistroCompetenciaDTO> competencias
     ){
-        return ResRegistroCurriculoDTO.builder()
-            .id(curriculo.getId())
-            .escolaridade(curriculo.getEscolaridade())
-            .funcao(curriculo.getFuncao())
-            .candidato(candidato)
-            .competencias(competencias)
-        .build();
+        return new ResRegistroCurriculoDTO(
+            curriculo.getId(),
+            curriculo.getEscolaridade(),
+            curriculo.getFuncao(),
+            candidato,
+            competencias
+        );
     }
 }

@@ -1,6 +1,7 @@
 package dev.marcus.curriculum.services.impls;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -112,4 +113,24 @@ public class CurriculoServiceImpl implements CurriculoService{
         );
     }
 
+    @Override
+    public ResRegistroCurriculoDTO findById(UUID id) {
+        CurriculoEntity curriculo = this.curriculoRepository.findById(id).orElseThrow(
+            () -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Curriculo não existe na base de dados!"
+            )
+        );
+
+        return CurriculoMapper.fromEntityToResRegistroDTO(
+            curriculo,
+            CandidatoMapper.fromEntityToResRegistroDTO(
+                curriculo.getCandidato(), 
+                UsuarioMapper.fromEntityToResRegistroDTO(curriculo.getCandidato().getUsuario()) 
+            ),
+            curriculo.getCompetencias().stream().map(
+                CompetenciaMapper::fromEntityToResRegistroDTO
+            ).toList()
+        );
+    }
 }
