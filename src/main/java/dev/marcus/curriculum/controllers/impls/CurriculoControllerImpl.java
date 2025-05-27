@@ -63,7 +63,7 @@ public class CurriculoControllerImpl implements CurriculoController{
 
     @Override
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('SCOPE_CANDIDATO')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<ResRegistroCurriculoDTO> findById(
         @PathVariable UUID id
     ) {
