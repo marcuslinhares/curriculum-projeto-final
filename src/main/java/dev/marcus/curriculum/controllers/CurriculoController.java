@@ -1,5 +1,6 @@
 package dev.marcus.curriculum.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCurriculoDTO;
+import dev.marcus.curriculum.models.DTOS.responses.EscolaridadeCountDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCurriculoDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -72,4 +74,17 @@ public interface CurriculoController {
     )
     @SecurityRequirement(name = "bearerKey")
     ResponseEntity<ResRegistroCurriculoDTO> findById(UUID id);
+
+    @Operation(
+        summary = "retorna relação de escolaridade e quantidade dos candidatos.",
+        responses = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400"),
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "403", ref = "forbidden"),
+            @ApiResponse(responseCode = "500", ref = "internalServerError")
+        }
+    )
+    @SecurityRequirement(name = "bearerKey")
+    ResponseEntity<List<EscolaridadeCountDTO>> getEscolaridadeCounts();
 }

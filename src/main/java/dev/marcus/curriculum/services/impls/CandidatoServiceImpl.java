@@ -1,5 +1,6 @@
 package dev.marcus.curriculum.services.impls;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCandidatoDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCandidatoDTO;
+import dev.marcus.curriculum.models.DTOS.responses.SituacaoCountDTO;
 import dev.marcus.curriculum.models.entities.CandidatoEntity;
 import dev.marcus.curriculum.models.enums.SituacaoEnum;
 import dev.marcus.curriculum.models.mappers.CandidatoMapper;
@@ -81,5 +83,10 @@ public class CandidatoServiceImpl implements CandidatoService{
                 "O usuário não completou o cadastro"
             )
         );
+    }
+
+    @Override
+    public List<SituacaoCountDTO> obterQuantidadePorSituacao() {
+        return this.candidatoRepository.countCandidatoSituacao();    
     }
 }

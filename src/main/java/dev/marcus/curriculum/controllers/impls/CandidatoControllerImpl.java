@@ -1,5 +1,6 @@
 package dev.marcus.curriculum.controllers.impls;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import dev.marcus.curriculum.controllers.CandidatoController;
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCandidatoDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCandidatoDTO;
+import dev.marcus.curriculum.models.DTOS.responses.SituacaoCountDTO;
 import dev.marcus.curriculum.services.CandidatoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -48,5 +50,14 @@ public class CandidatoControllerImpl implements CandidatoController{
         return ResponseEntity.status(HttpStatus.OK).body(
             this.candidatoService.aprovarReprovarCandidato(candidatoId, aprovado)
         ); 
+    }
+
+    @Override
+    @GetMapping("/sitacoes")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<List<SituacaoCountDTO>> getSituacaoCounts() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            candidatoService.obterQuantidadePorSituacao()
+        );
     }
 }

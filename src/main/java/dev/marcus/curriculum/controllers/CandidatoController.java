@@ -1,5 +1,6 @@
 package dev.marcus.curriculum.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCandidatoDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCandidatoDTO;
+import dev.marcus.curriculum.models.DTOS.responses.SituacaoCountDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -44,4 +46,17 @@ public interface CandidatoController {
     ResponseEntity<ResRegistroCandidatoDTO> aprovaReprovaCandidato(
         UUID candidatoId, boolean aprovado
     );
+
+    @Operation(
+        summary = "retorna relação de situação e quantidade dos candidatos.",
+        responses = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400"),
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "403", ref = "forbidden"),
+            @ApiResponse(responseCode = "500", ref = "internalServerError")
+        }
+    )
+    @SecurityRequirement(name = "bearerKey")
+    ResponseEntity<List<SituacaoCountDTO>> getSituacaoCounts();
 }

@@ -1,5 +1,6 @@
 package dev.marcus.curriculum.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import dev.marcus.curriculum.models.DTOS.responses.EscolaridadeCountDTO;
 import dev.marcus.curriculum.models.entities.CurriculoEntity;
 
 public interface CurriculoRepository extends JpaRepository<CurriculoEntity, UUID>{
@@ -26,5 +28,12 @@ public interface CurriculoRepository extends JpaRepository<CurriculoEntity, UUID
         END
     """)
     Page<CurriculoEntity> curriculosOrdenadosPorSituacao(Pageable pageable);
+
+    @Query("""
+        SELECT new dev.marcus.curriculum.models.DTOS.responses.EscolaridadeCountDTO(
+            c.escolaridade, COUNT(c)
+        ) FROM curriculo c GROUP BY c.escolaridade
+    """)
+    List<EscolaridadeCountDTO> countCurriculosByEscolaridade();
 
 }

@@ -1,5 +1,6 @@
 package dev.marcus.curriculum.controllers.impls;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import dev.marcus.curriculum.controllers.CurriculoController;
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCurriculoDTO;
+import dev.marcus.curriculum.models.DTOS.responses.EscolaridadeCountDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCurriculoDTO;
 import dev.marcus.curriculum.services.CurriculoService;
 import jakarta.validation.Valid;
@@ -68,5 +70,14 @@ public class CurriculoControllerImpl implements CurriculoController{
         @PathVariable UUID id
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(this.curriculoService.findById(id));
+    }
+
+    @Override
+    @GetMapping("/escolaridades")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<List<EscolaridadeCountDTO>> getEscolaridadeCounts() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            this.curriculoService.obterQuantidadePorEscolaridade()
+        );
     }
 }

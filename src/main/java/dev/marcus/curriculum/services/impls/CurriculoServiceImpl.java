@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import dev.marcus.curriculum.models.DTOS.requests.ReqRegistroCurriculoDTO;
+import dev.marcus.curriculum.models.DTOS.responses.EscolaridadeCountDTO;
 import dev.marcus.curriculum.models.DTOS.responses.ResRegistroCurriculoDTO;
 import dev.marcus.curriculum.models.entities.CandidatoEntity;
 import dev.marcus.curriculum.models.entities.CompetenciaEntity;
@@ -132,5 +133,10 @@ public class CurriculoServiceImpl implements CurriculoService{
                 CompetenciaMapper::fromEntityToResRegistroDTO
             ).toList()
         );
+    }
+
+    @Override
+    public List<EscolaridadeCountDTO> obterQuantidadePorEscolaridade() {
+        return this.curriculoRepository.countCurriculosByEscolaridade();
     }
 }
