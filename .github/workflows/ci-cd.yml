@@ -39,8 +39,8 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Build with Maven
-      run: mvn -B package -DskipTests --file pom.xml
+    - name: Build e testes
+      run: mvn -B verify --file pom.xml
 
     - name: Login no GHCR com token pessoal
       run: echo "${{ secrets.GHCR_TOKEN }}" | docker login $REGISTRY -u ${{ github.repository_owner }} --password-stdin
