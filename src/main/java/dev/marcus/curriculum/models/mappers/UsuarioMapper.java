@@ -19,10 +19,11 @@ public abstract class UsuarioMapper {
     public static ResRegistroUsuarioDTO fromEntityToResRegistroDTO(
         UsuarioEntity usuario
     ){
-        return ResRegistroUsuarioDTO.builder()
-            .id(usuario.getId())
-            .nome(usuario.getNome())
-            .email(usuario.getEmail())
-        .build();
+        return new ResRegistroUsuarioDTO(
+            usuario.getId(),
+            usuario.getNome(),
+            usuario.getEmail()
+        );
+        
     }
 }

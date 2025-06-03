@@ -17,10 +17,10 @@ public abstract class CompetenciaMapper {
     public static ResRegistroCompetenciaDTO fromEntityToResRegistroDTO(
         CompetenciaEntity competencia
     ){
-        return ResRegistroCompetenciaDTO.builder()
-            .id(competencia.getId())
-            .descricao(competencia.getDescricao())
-            .nivel(competencia.getNivel())
-        .build();
+        return new ResRegistroCompetenciaDTO(
+            competencia.getId(),
+            competencia.getDescricao(),
+            competencia.getNivel()
+        );
     }
 }

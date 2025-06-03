@@ -20,13 +20,14 @@ public abstract class CandidatoMapper {
     public static ResRegistroCandidatoDTO fromEntityToResRegistroDTO(
         CandidatoEntity candidato, ResRegistroUsuarioDTO usuario
     ){
-        return ResRegistroCandidatoDTO.builder()
-            .id(candidato.getId())
-            .cpf(candidato.getCpf())
-            .dataNasc(candidato.getDataNasc())
-            .telefone(candidato.getTelefone())
-            .situacao(candidato.getSituacao())
-            .usuario(usuario)
-        .build();
+        return new ResRegistroCandidatoDTO(
+            candidato.getId(),
+            candidato.getCpf(),
+            candidato.getDataNasc(),
+            candidato.getTelefone(),
+            candidato.getSituacao(),
+            usuario
+        );
+        
     }
 }

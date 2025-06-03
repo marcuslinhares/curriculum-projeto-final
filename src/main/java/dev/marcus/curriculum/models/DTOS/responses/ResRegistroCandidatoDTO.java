@@ -4,9 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import dev.marcus.curriculum.models.enums.SituacaoEnum;
-import lombok.Builder;
 
-@Builder
 public record ResRegistroCandidatoDTO(
     UUID id,
     String cpf,
