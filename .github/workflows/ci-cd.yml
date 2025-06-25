@@ -53,21 +53,8 @@ jobs:
     - name: Build da imagem Docker
       run: |
         docker buildx build -t $REGISTRY/${{ github.repository_owner }}/$IMAGE_NAME:$IMAGE_TAG \
-          --build-arg CURRICULUM_DB_URL="${{ secrets.CURRICULUM_DB_URL }}" \
-          --build-arg CURRICULUM_DB_USERNAME="${{ secrets.CURRICULUM_DB_USERNAME }}" \
-          --build-arg CURRICULUM_DB_PASSWORD="${{ secrets.CURRICULUM_DB_PASSWORD }}" \
-          --build-arg ADMIN_NOME="${{ secrets.ADMIN_NOME }}" \
-          --build-arg ADMIN_EMAIL="${{ secrets.ADMIN_EMAIL }}" \
-          --build-arg ADMIN_SENHA="${{ secrets.ADMIN_SENHA }}" \
-          --build-arg AMBIENTE="${{ secrets.AMBIENTE }}" \
-          --build-arg JWT_PRIVATE_KEY="${{ secrets.JWT_PRIVATE_KEY }}" \
-          --build-arg JWT_PUBLIC_KEY="${{ secrets.JWT_PUBLIC_KEY }}" \
-          --build-arg PRODURL="${{ secrets.PRODURL }}" \
-          --load .
-        docker push $REGISTRY/${{ github.repository_owner }}/$IMAGE_NAME:$IMAGE_TAG
-            
+          --push .
+
     - name: Dispara webhook de deploy no Dokploy da vps secundaria
       run: |
         curl -X POST "${{ secrets.DOKPLOY_WEBHOOK_URL }}"
-
-
