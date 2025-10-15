@@ -3,11 +3,10 @@ name: Build e Deploy
 on:
   push:
     branches: ["main"]
-    
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: curriculum-api
-  IMAGE_TAG: latest
   SERVICE_NAME: curriculum-api
   CONTAINER_PORT: 8080
   HOST_PORT: 8080
@@ -17,22 +16,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout do código
+    - name: Checkout do código fonte
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
-    - name: Create file from APP_KEY
-      run: echo "${{ secrets.JWT_PRIVATE_KEY }}" > app.key
-
-    - name: Create file from APP_PUB
-      run: echo "${{ secrets.JWT_PUBLIC_KEY }}" > app.pub
-
-    - name: Copy secrets to resources directory
+    - name: Criar arquivos de chave JWT
       run: |
+        echo "${{ secrets.JWT_PRIVATE_KEY }}" > app.key
+        echo "${{ secrets.JWT_PUBLIC_KEY }}" > app.pub
         mkdir -p src/main/resources
-        cp app.key src/main/resources/
-        cp app.pub src/main/resources/
+        mv app.key app.pub src/main/resources/
 
-    - name: Set up JDK 17
+    - name: Configurar JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
@@ -42,19 +38,30 @@ jobs:
     - name: Build e testes
       run: mvn -B verify --file pom.xml
 
-    - name: Login no GHCR com token pessoal
+    - name: Login no GHCR
       run: echo "${{ secrets.GHCR_TOKEN }}" | docker login $REGISTRY -u ${{ github.repository_owner }} --password-stdin
-      env:
-        CR_PAT: ${{ secrets.GHCR_TOKEN }}
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Build da imagem Docker
+    - name: Build e push da imagem Docker
       run: |
-        docker buildx build -t $REGISTRY/${{ github.repository_owner }}/$IMAGE_NAME:$IMAGE_TAG \
+        docker buildx create --use
+        docker buildx build \
+          -t $REGISTRY/${{ github.repository_owner }}/$IMAGE_NAME:${{ github.sha }} \
           --push .
 
-    - name: Dispara webhook de deploy no Dokploy da vps secundaria
+    - name: Clone do repositório GitOps
+      uses: actions/checkout@v3
+      with:
+        repository: marcuslinhares/curriculum-gitops
+        ref: main
+        token: ${{ secrets.GITOPS_TOKEN }}
+        path: gitops
+
+    - name: Atualizar tag da imagem no deployment.yaml
       run: |
-        curl -X POST "${{ secrets.DOKPLOY_WEBHOOK_URL }}"
+        cd gitops/dev/backend-app
+        sed -i "s|image: ghcr.io/.*/curriculum-api:.*|image: ghcr.io/${{ github.repository_owner }}/curriculum-api:${{ github.sha }}|" deployment.yaml
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add deployment.yaml
+        git commit -m "Atualiza imagem curriculum-api para ${{ github.sha }}"
+        git push origin main
